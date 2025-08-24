@@ -1,40 +1,51 @@
 const choices = ["rock", "paper", "scissors"];
-const randomNumber = Math.floor(Math.random() * 3);
-
-let humanScore = 0;
-let computerScore = 0;
 
 function getComputerChoice() {
-  let computerChoice = choices[randomNumber];
+  let computerChoice = choices[Math.floor(Math.random() * 3)];
   console.log(computerChoice);
   return computerChoice;
 }
 
 function getHumanChoice() {
-  let humanChoice = prompt("Select rock, paper, or scissors");
+  let humanChoice = prompt("Select rock, paper, or scissors").toLowerCase();
   console.log(humanChoice);
   return humanChoice;
 }
 
 function playRound(humanChoice, computerChoice) {
   if (humanChoice === computerChoice) {
-    console.log("It was a tie, try again");
-  } else if (humanChoice === "rock" && computerChoice === "scissors") {
-    console.log("You won, you are awarded one point");
-    humanScore++;
-  } else if (humanChoice === "paper" && computerChoice === "rock") {
-    console.log("You won, you are awarded one point");
-    humanScore++;
-  } else if (humanChoice === "scissors" && computerChoice === "paper") {
-    console.log("You won, you are awarded one point");
-    humanScore++;
+    return "tie";
+  } else if (
+    (humanChoice === "rock" && computerChoice === "scissors") ||
+    (humanChoice === "paper" && computerChoice === "rock") ||
+    (humanChoice === "scissors" && computerChoice === "paper")
+  ) {
+    console.log("you won, you are awarded one point");
+    return "human";
   } else {
-    console.log("the Computer beat you they get one point");
-    computerScore++;
+    console.log("The Computer won, They are awarded a point");
+    return "computer";
+  }
+}
+function playGame() {
+  let humanScore = 0;
+  let computerScore = 0;
+  while (humanScore < 5 && computerScore < 5) {
+    const humanSelection = getHumanChoice();
+    let computerSelection = getComputerChoice();
+
+    const winner = playRound(humanSelection, computerSelection);
+
+    if (winner === "human") humanScore++;
+    if (winner === "computer") computerScore++;
+    console.log(`Score -- You: ${humanScore}, Computer: ${computerScore}`);
+  }
+
+  if (humanScore === 5) {
+    console.log("You win the Game");
+  } else {
+    console.log("You lost");
   }
 }
 
-const humanSelection = getHumanChoice();
-const computerSelection = getComputerChoice();
-
-playRound(humanSelection, computerSelection);
+playGame();
